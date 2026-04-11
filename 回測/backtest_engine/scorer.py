@@ -13,6 +13,7 @@ Diagnostics: median_sharpe, pct_positive, worst_10pctl, sharpe_std
 from dataclasses import dataclass
 
 import numpy as np
+from scipy.stats import norm
 
 
 @dataclass
@@ -81,7 +82,7 @@ def compute_robustness(
         composite = portfolio_sharpe
 
     return RobustnessScore(
-        portfolio_sharpe=portfolio_sharpe,
+        portfolio_sharpe=float(portfolio_sharpe),
         median_sharpe=median_sharpe,
         mean_sharpe=mean_sharpe,
         pct_positive=pct_positive,
@@ -93,3 +94,38 @@ def compute_robustness(
         n_symbols=len(sharpes),
         composite=composite,
     )
+
+
+def deflated_sharpe_ratio(observed_sr: float, n_trials: int, n_returns: int,
+                          skew: float = 0.0, kurtosis: float = 3.0) -> float:
+    """
+    Deflated Sharpe Ratio (Bailey & Lopez de Prado).
+
+    Returns p-value: probability that the observed Sharpe is real
+    (not just the best out of n_trials random strategies).
+
+    > 0.95: very likely real
+    0.50-0.95: uncertain
+    < 0.50: likely noise
+    """
+    if n_trials < 2 or n_returns < 10 or observed_sr <= 0:
+        return 0.0
+
+    euler_gamma = 0.5772156649
+    log_n = np.log(n_trials)
+
+    # Expected max Sharpe under null hypothesis
+    sr0 = np.sqrt(2 * log_n) * (1 - euler_gamma / (2 * log_n))
+
+    # Standard error of Sharpe estimate
+    se = np.sqrt(
+        (1 + 0.5 * observed_sr**2
+         - skew * observed_sr
+         + (kurtosis - 3) / 4 * observed_sr**2)
+        / (n_returns - 1)
+    )
+
+    if se < 1e-10:
+        return 0.0
+
+    return float(norm.cdf((observed_sr - sr0) / se))
