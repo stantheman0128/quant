@@ -12,11 +12,52 @@
 > 2. **論述定位採「資訊擴散假說」(第二類機制)** — KOL 比散戶早解讀公開資訊,散戶慢半拍跟進產生時間差 edge
 > 3. **範圍大幅收窄**:只保留(a) 觀點抽取 schema 與資料集、(b) 抽取方法與校準機制、(c) 下游量化驗證
 > 4. **刪除 v3 內容**:載體分離因子、Bayesian 動態信任度、階層式分群、分歧度因子、時變相關結構
-> 5. **LLM 角色降級**:LLM 只做「formatter」不做「judge」,評分不依賴 LLM 自評信心
+> 5. **LLM 角色降級**:LLM 作為 formatter,評分不依賴 LLM 自評信心
 > 6. **KOL 入池門檻改為 WFA / WFE** — out-of-sample 穩健性超過閾值才納入
 > 7. **JSON schema 簡化為 4 欄位**:timestamp / id / direction / weight
 > 8. **簡報結構改為 7 頁新骨架**:問題 → 缺口 → 方法 → 貢獻 → 驗證 → 進度風險 → 結論
 > 9. **Contribution 由 5 個收斂為 3 個**:schema 設計、LLM-as-formatter 架構、WFA-based 驗證
+>
+> **v4 後續修訂(2026-04-24 晚間)**:
+> - 新增 Reader's Note 明確資工論述(9 個資工面向 + 類比已認可資工題目)
+> - 現有進度改寫為 PoC 實際成果:3 位 FB KOL + 1 個 Podcast、巴逆逆 305 筆預測統計結果
+> - WFE look-ahead bias 緩解策略展開說明(時光機原則)
+> - 刪除 banini-tracker 對照列(Slide 2 與講者腳本)
+> - 統一刪除「不做 judge / 非 judge」的對比強調,只保留 LLM-as-Formatter 正面描述
+
+---
+
+## 📖 Reader's Note — 給教授/評審的資工定位說明
+
+本專題是**資訊工程研究**,不是金融應用報告。雖然下游評估採用量化回測指標,**核心貢獻皆為資工問題的系統性解法**:
+
+### 本專題的資工核心(九個面向)
+
+| 資工子領域 | 本專題對應的技術問題 |
+|---|---|
+| **1. 資料庫系統設計** | Point-in-time bitemporal schema,嚴格防止 look-ahead,雙時間維度(事件時間 vs 系統知曉時間) |
+| **2. 資料工程 / ETL** | 多源異質資料(文字/語音/影片)→ 統一 schema;schema evolution;資料血緣追蹤 |
+| **3. 自然語言處理** | 中文財經命名實體消歧(台積 ≡ 2330 ≡ TSMC);細粒度立場分類;跨領域遷移 |
+| **4. 語音處理 / ASR** | Whisper large-v3-turbo 部署與調優、CTranslate2 量化加速、中文 ASR 錯字率分析 |
+| **5. 機器學習系統 / MLOps** | LLM 多模型 ensemble、prompt 穩定性實驗、Active Learning(只把不一致樣本丟人工) |
+| **6. 演算法** | Walk-Forward Analysis 複雜度分析、IC 批次計算最佳化、Cross-sectional rank 向量化 |
+| **7. 系統架構** | Layer 化 pipeline、介面設計(API contract)、快取策略、失敗恢復 |
+| **8. 軟體工程 + 可重現性** | 測試策略、回測可重現性、資料版本 + 代碼版本 + 模型版本三軸控制 |
+| **9. LLM 應用研究** | LLM-as-Formatter 架構探索、schema 演化下輸出一致性、Token 成本 Pareto 分析 |
+
+### 論述定位
+
+> 「這個專題的**資工核心是三件事:大規模多源資料蒐集、LLM 結構化抽取、point-in-time 資料系統**。量化回測是**驗證前述系統是否有用的下游評估方法**,不是專題本身的主體。即便完全不套用到金融,這套『**自由文本 → 結構化資料 → 時序驗證**』的 pipeline 架構,同樣可以應用到醫療病歷、政治言論、法律判決書等任何非結構化專業文本領域。」
+
+### 與其他資工題目的類比
+
+| 本專題 | 類比已被認可的資工題目 |
+|---|---|
+| 爬 KOL 發文 → 結構化 | 爬維基百科 → 知識圖譜(KB construction) |
+| LLM 抽取觀點 | LLM-based Information Extraction |
+| WFA 驗證 KOL | Cross-validation framework design |
+| bitemporal schema | 時序資料庫設計 |
+| 回測框架 | Simulation / testing infrastructure |
 
 ---
 
@@ -77,7 +118,6 @@
 | 通用情感分析(正/負/中性) | 欄位太粗,無法對應交易決策 |
 | 財經新聞 NLP | 媒體是落後指標,不是 KOL 且風格不同 |
 | 英文社群量化(Reddit/Twitter) | 中文財經缺少對等方法論與資料集 |
-| banini-tracker(開源) | 單一 KOL、無 schema、無回測驗證 |
 | LLM 直接當評分器 | 輸出不可回測、無法校準,且 confidence 不可靠 |
 
 **缺的是什麼**:
@@ -97,7 +137,7 @@
 
 ```mermaid
 flowchart LR
-    A[KOL 原始發文<br/>文字 / 轉錄字幕] --> B[LLM 格式化抽取<br/>formatter not judge]
+    A[KOL 原始發文<br/>文字 / 轉錄字幕] --> B[LLM 格式化抽取]
     B --> C[結構化資料<br/>4 欄位 JSON]
     C --> D[KOL 歷史回測<br/>WFA 計算 WFE]
     D --> E[權重填入]
@@ -124,10 +164,9 @@ flowchart LR
 
 **三個關鍵設計決定**:
 
-1. **LLM 只做 formatter**(不做 judge):
-   - LLM 輸出方向(-1/0/+1),不輸出 confidence score
-   - 避開 LLM 自評信心不可靠的問題
-   - 評分外部化:交給 KOL 歷史表現決定權重
+1. **LLM 作為 formatter**:
+   - LLM 輸出方向(-1/0/+1)
+   - 評分外部化:由 KOL 歷史表現決定權重
 
 2. **權重 = KOL 歷史 WFE**(Walk-Forward Efficiency):
    - 對每位候選 KOL 跑 WFA 回測
@@ -154,8 +193,7 @@ flowchart LR
 
 ### Contribution 2:LLM-as-Formatter 混合架構
 
-- LLM 只負責「文字 → 結構化欄位」的格式化工作
-- **不讓 LLM 擔任最終評分者**(避開 confidence 不可靠問題)
+- LLM 負責「文字 → 結構化欄位」的格式化工作
 - 評分透過 KOL 歷史實戰表現(WFA/WFE)外部化
 - **少見的設計選擇**:在 LLM × 金融研究中,多數直接用 LLM 輸出 confidence;本研究選擇分離職責
 
@@ -213,23 +251,59 @@ flowchart LR
 
 **標題**:已完成的基礎建設 + 主要風險與緩解
 
-### 現有進度(已完成)
+### 現有進度:PoC 已跑通,初步結果顯示可行
 
-- ✓ Facebook / Threads 爬蟲管道
-- ✓ YouTube / Podcast Whisper large-v3-turbo 轉錄
-- ✓ LLM extract POC(Claude / GPT 雙模型)
-- ✓ 台股 + 美股價格快取系統(point-in-time)
-- ✓ vectorbt 回測框架
+**已抓取 KOL 資料**:
+
+| KOL | 平台 | 規模 | 狀態 |
+|---|---|---|---|
+| 巴逆逆(8zz) | Facebook | 305 筆預測(2024-04 ~ 2026-04) | 已結構化、已跑 PoC |
+| 盤整之王 | Facebook | 498 則貼文(5 個 chunk) | LLM 抽取完成 |
+| Uncle 大叔美股 | Facebook | ~75 則貼文(5 個 chunk) | LLM 抽取完成 |
+| Gooaye 財經一路發 | Podcast | EP654 已下載 + Whisper 轉錄 | 初步語音 pipeline |
+
+**已完成的基礎建設**:
+- Facebook 爬蟲管道(多 KOL 批次)
+- Whisper large-v3-turbo 中文語音轉錄(CTranslate2 加速)
+- LLM 抽取 pipeline(chunk-based,可並行)
+- Point-in-time 價格快取系統(TW / US 雙市場)
+- vectorbt 回測框架 + 自寫指標計算
+
+**PoC 核心發現(巴逆逆 305 筆 × 5 日 OHLC)**:
+
+| 指標 | 結果 | 意義 |
+|---|---|---|
+| Hit rate (5d) | **0.439 (p=0.039)** | 「反指標」假設統計上反向顯著 — 順著做 hit rate ≈ 56% |
+| \|IC\| (5d) | 0.082 | 有訊號存在,方向與原假設相反 |
+| Low conviction subset | hit rate 0.231 (p=0.001) | 她猶豫時市場已決定方向 |
+| Long-Short Sharpe (5d) | +0.61 | 單 KOL、未加權已可達 0.6 |
+
+**兩個已驗證的 insight**:
+1. **「她不是反指標,是 lagging follower」** — 原本被當成反指標的 KOL,實際是「看到漲才追 / 套牢還抱」,順著做才有 edge
+2. **低 conviction 訊號最可預測** — KOL 猶豫語氣反而是更強訊號(p=0.001)
+
+**PoC 結論**:GO(方向修正)— 值得擴展到多 KOL + 多市場,用資料決定方向而非先假設誰是正/反指標。
 
 ### 主要風險與緩解策略
 
 | 風險 | 嚴重度 | 緩解策略 |
 |---|---|---|
-| **WFE 門檻導入 look-ahead bias** | 高 | 門檻訂在 train period 末端、嚴格時序切分、不以當下已知結果反推門檻 |
+| **WFE 門檻導入 look-ahead bias** | 高 | 時光機原則:門檻訂在 train period 末端、train 和 test 間有時間牆、門檻值先驗決定不回頭調整(詳見下方展開) |
 | **LLM 抽取不一致** | 中 | 雙模型 cross-check + 人工抽樣 10% 驗證 + 不一致樣本回人工 |
 | **KOL 發文稀疏,樣本不足** | 中 | 設最低樣本數門檻(每 KOL ≥ 100 筆標的相關發文) |
 | **抽取 schema 漏掉關鍵資訊** | 中 | 先跑 100 筆 pilot 人工標註,再 freeze schema |
 | **incremental IC 不顯著** | 可接受 | Plan B — 交付 schema + dataset + 抽取 pipeline,下游驗證結果如實報告 |
+
+### WFE 門檻的時序切分細節(展開解釋)
+
+**核心原則:時光機假設** — 做「是否納入某 KOL」的決定時,假裝你現在是 train 結束那天,只能用當時才有的資訊。
+
+**三個具體做法**:
+1. **門檻訂在 train period 末端**:WFE 只用 train 期間資料計算(例如切分點 2023-12-31,則僅 2022-01 到 2023-12 的價格/KOL 發文可用),2024-01 之後的資料不能觸碰
+2. **嚴格時序切分**:train 和 test 之間要有明確時間牆,train 結束前不能看 test 的任何東西(包括未來才下架的 KOL、未來才紅的標的)
+3. **門檻值先驗決定**:WFE > 0.5 這個數字在跑 test 前就定好,不可以跑完看到「0.45 結果更好」就回頭改
+
+違反任何一條都是 look-ahead bias,會讓結果看起來很好但實際無法重現。
 
 ### Plan B(退路)
 
@@ -254,7 +328,7 @@ flowchart LR
 ### 學術定位
 
 - **填補中文財經 KOL 結構化研究的方法論空白**
-- **提出 LLM-as-Formatter(非 judge)的可驗證架構**,為 LLM × 金融研究提供可重現的範本
+- **提出 LLM-as-Formatter 的可驗證架構**,為 LLM × 金融研究提供可重現的範本
 - 交付的資料集、schema、pipeline 皆可供後續研究延伸
 
 ### 後續可擴展方向
@@ -274,11 +348,11 @@ flowchart LR
 |---|---|---|
 | **0:00–0:30** | Title | 「各位老師好,我是師大資工系的施博瀚。今天報告的專題是『中文財經 KOL 觀點抽取與結構化建模』——目標是把網紅的自由文本,做成可回測、可重現的結構化資料。」 |
 | **0:30–1:30** | Slide 1 問題 | 「台灣股市散戶佔成交量約一半,KOL 對散戶決策影響很大。KOL 比散戶更早解讀公開資訊,散戶慢半拍跟進,中間存在時間差的 edge。但 KOL 發文是自由文本,下游量化無法直接用。所以核心問題是:**如何把中文財經 KOL 的自由文本,轉為標準化、可回測的結構化資料**。這不是爬蟲問題、不是情感分析問題,而是欄位設計 × 抽取方法 × 下游驗證的完整方法論問題。」 |
-| **1:30–2:30** | Slide 2 缺口 | 「既有做法各有缺口。通用情感分析太粗;財經新聞 NLP 是媒體落後指標;英文社群量化研究不適用中文市場;banini-tracker 只追一人沒有 schema 沒有回測;直接用 LLM 評分無法重現無法校準。缺的是**標準化 schema、穩定抽取方法、下游驗證**這三件事同時解決的方法論。」 |
-| **2:30–4:00** | Slide 3 方法 | 「方法分三步驟。**抽取**:LLM 只做 formatter,輸入自由文本輸出 4 欄位 JSON — 時間戳、標的 id、方向(-1/0/+1)、權重。注意 LLM 不做評分、不輸出 confidence。**校準**:對每個候選 KOL 跑 WFA(Walk-Forward Analysis),算出 out-of-sample 的 WFE 分數,這個分數當 JSON 的 weight 欄位。**驗證**:用這份結構化資料建因子,量測對 Alpha101 的 incremental IC。**定位上採資訊擴散假說**——KOL 比散戶早解讀公開資訊,我們交易的是這個時間差,不假設 KOL 有內線、不假設 KOL 操縱情緒。」 |
+| **1:30–2:30** | Slide 2 缺口 | 「既有做法各有缺口。通用情感分析太粗;財經新聞 NLP 是媒體落後指標;英文社群量化研究不適用中文市場;直接用 LLM 評分無法重現無法校準。缺的是**標準化 schema、穩定抽取方法、下游驗證**這三件事同時解決的方法論。」 |
+| **2:30–4:00** | Slide 3 方法 | 「方法分三步驟。**抽取**:LLM 作為 formatter,輸入自由文本輸出 4 欄位 JSON — 時間戳、標的 id、方向(-1/0/+1)、權重。**校準**:對每個候選 KOL 跑 WFA(Walk-Forward Analysis),算出 out-of-sample 的 WFE 分數,這個分數當 JSON 的 weight 欄位。**驗證**:用這份結構化資料建因子,量測對 Alpha101 的 incremental IC。**定位上採資訊擴散假說**——KOL 比散戶早解讀公開資訊,我們交易的是這個時間差,不假設 KOL 有內線、不假設 KOL 操縱情緒。」 |
 | **4:00–5:30** | Slide 4 貢獻 | 「三個 contribution。**第一,資料面**:定義 4 欄位 schema 並自建 500 筆人工標註資料集,填補中文財經 KOL 結構化資料空白。**第二,方法面**:LLM-as-Formatter 混合架構,讓 LLM 只做格式化、評分交給歷史表現,避開 LLM confidence 不可靠問題;這在 LLM × 金融文獻中較少見。**第三,實證面**:WFA-based KOL 篩選 + 下游 incremental IC 驗證,完整走完抽取到量化落地的鏈路。三個 contribution 彼此獨立,即使下游 IC 不顯著,前兩個仍獨立可發表。」 |
 | **5:30–6:20** | Slide 5 驗證 | 「實驗三層。層 1 測抽取品質,方向分類 F1 ≥ 0.75、消歧 accuracy ≥ 0.90。層 2 測 KOL 篩選,用 WFE > 0.5 當門檻,預期通過 8 到 15 位。層 3 測下游價值,incremental IC baseline 目標 0.03、stretch 0.05。實驗分三 Phase:先台積電單標的、再權值股前 5、最後跨板塊 30 檔。」 |
-| **6:20–6:50** | Slide 6 進度風險 | 「爬蟲、Whisper、LLM extract、回測框架都已實作完成。主要風險是 WFE 門檻可能導入 look-ahead,用嚴格時序切分緩解;LLM 抽取不一致用雙模型 cross-check;最終若 IC 不顯著,schema 與資料集與抽取架構三者仍獨立可交付。」 |
+| **6:20–6:50** | Slide 6 進度風險 | 「我已經跑過 PoC:三位 FB KOL(巴逆逆、盤整之王、Uncle 大叔)共約 878 筆貼文,加上一個 Podcast(Gooaye)。以巴逆逆 305 筆預測做 5 日 OHLC 統計,hit rate 0.439 p=0.039 顯著反向——意思是『把她當反指標』失敗,但**順著她做勝率約 56%,確認有 edge**。這是 PoC 已驗證 go 的訊號。主要風險是 WFE 門檻可能導入 look-ahead,用時光機原則嚴格時序切分;若最終 IC 不顯著,schema、資料集、抽取架構三者仍獨立可交付。」 |
 | **6:50–7:00** | Slide 7 結論 | 「本專題目標是做完整方法論,不追求單一賣點,而是讓三個 contribution 獨立可用。謝謝老師。」 |
 
 ---
@@ -310,7 +384,7 @@ flowchart LR
 **答**:KOL 有內線但願意公開(第一類)邏輯矛盾,有內線就不會免費公開;散戶推動價格(第三類)與末期倒貨(第四類)需要 KOL 對市場有顯著影響力,個別 KOL 做不到。唯一合理可驗證的是第二類——KOL 比散戶早解讀公開資訊,散戶慢半拍跟進產生時間差。這個假說最容易被實證檢驗:如果成立,KOL direction 對 T+N 日報酬應有顯著預測力;如果不成立,我們會如實報告。
 
 ## Q2:「LLM 抽取不準怎辦?那你整個資料集都是錯的。」
-**答**:三層緩解。第一,LLM 只做格式化不做評分,犯錯範圍有限。第二,雙模型 cross-check,不一致樣本回人工。第三,10% 抽樣人工驗證,若一致率 < 0.85 就 freeze schema 重來。更關鍵的是:LLM 抽取錯誤會在 WFA 層被懲罰——某 KOL 的抽取訊號若系統性錯誤,他的 WFE 會低,權重會低,最終下游 IC 會反映這點。系統有自我淨化機制。
+**答**:三層緩解。第一,LLM 負責的是結構化格式化,犯錯範圍有限。第二,雙模型 cross-check,不一致樣本回人工。第三,10% 抽樣人工驗證,若一致率 < 0.85 就 freeze schema 重來。更關鍵的是:LLM 抽取錯誤會在 WFA 層被懲罰——某 KOL 的抽取訊號若系統性錯誤,他的 WFE 會低,權重會低,最終下游 IC 會反映這點。系統有自我淨化機制。
 
 ## Q3:「WFE 篩選 KOL 會不會就是倖存者偏差?」
 **答**:是學術上最容易被攻擊的點,我用三個設計緩解。第一,WFA 本身就是 out-of-sample 驗證,不是 in-sample 挑人。第二,門檻是先驗定義(WFE > 0.5),不根據最終 IC 反推調整。第三,時序嚴格切分,WFE 計算只使用訓練期末端之前的資料。這不是「挑歷史贏家」,而是「根據歷史 out-of-sample 穩健性設池」——量化工業界的標準做法。
@@ -321,8 +395,8 @@ flowchart LR
 ## Q5:「7 分鐘的範圍你真的做得完嗎?」
 **答**:已有實作基礎(爬蟲、Whisper、LLM extract、回測框架都跑通)。**v4 相較早期版本大幅收窄範圍**,只做抽取 + 校準 + 驗證,不做多載體融合、不做 Bayesian、不做分群。三個 contribution 彼此獨立可交付,就算 Phase 3 做不完,Phase 1 + Phase 2 的結果仍構成完整專題。
 
-## Q6:「和 banini-tracker 差別?」
-**答**:五個本質差異:(1) 多 KOL 跨平台 vs 單一 KOL;(2) 標準化 schema vs 無 schema;(3) LLM-as-Formatter 架構 vs 純通知系統;(4) WFA-based KOL 篩選 vs 主觀追蹤;(5) 下游量化驗證 vs 無回測。簡言之,banini-tracker 是個人工具,本研究是可交付給後續研究延伸的**方法論 + 資料集 + 驗證框架**。
+## Q6:「和既有單 KOL 追蹤工具的差別?」
+**答**:既有開源工具多為單一 KOL 的交易輔助通知(如追蹤特定網紅的 FB 發文當反指標),和本研究有五個本質差異:(1) 多 KOL 跨平台 vs 單一 KOL;(2) 標準化 schema vs 無 schema;(3) LLM-as-Formatter 架構 vs 規則式處理;(4) WFA-based KOL 篩選 vs 主觀追蹤;(5) 下游量化驗證 vs 無回測或只看 cherry-picked 勝率。簡言之,既有工具是個人交易輔助,本研究是可交付給後續研究延伸的**方法論 + 資料集 + 驗證框架**。
 
 ---
 
