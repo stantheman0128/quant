@@ -1,0 +1,88 @@
+{
+  "tools_forced": {
+    "code": 200,
+    "tool_calls": [
+      {
+        "id": "call_bd7b6d850525484f8fce1d7c",
+        "function": {
+          "arguments": "{\"city\": \"台北\"}",
+          "name": "get_weather"
+        },
+        "type": "function"
+      }
+    ]
+  },
+  "stream": {
+    "code": 200,
+    "sample": "data: {\"id\":\"234b3260cb6f44aeb920bdb8486ecd27\",\"choices\":[{\"delta\":{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":null,\"reasoning_content\":null},\"finish_reason\":null,\"index\":0}],\"created\":1779358019,\"model\":\"mimo-v2.5-pro\",\"object\":\"chat.completion.ch"
+  },
+  "json_mode": {
+    "code": 200,
+    "content": "{\"a\": 1}"
+  },
+  "vision": {
+    "code": 404,
+    "content": "{\"error\":{\"code\":\"404\",\"message\":\"No endpoints found that support image input\",\"param\":\"\",\"type\":\"\"}}"
+  },
+  "search_web_search": {
+    "code": 200,
+    "content": "我無法提供即時的股價資訊，因為我沒有連接到即時金融數據的能力。\n\n如果你想知道 NVIDIA（股票代號：**NVDA**）今天的股價，可以透過以下方式查詢：\n\n1. **Google 搜尋**：直接搜尋「NVDA stock」即可看到即時報價。\n2. **財經網站**：\n   - [",
+    "usage": {
+      "completion_tokens": 128,
+      "prompt_tokens": 257,
+      "total_tokens": 385,
+      "completion_tokens_details": {
+        "reasoning_tokens": 47
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 192
+      }
+    }
+  },
+  "search_enable_search": {
+    "code": 200,
+    "content": "很抱歉，我無法提供 NVIDIA 今天的即時股價資訊。我沒有連接網路，也無法存取即時的股票市場數據。\n\n建議你可以透過以下方式查詢：\n\n- **Google 搜尋**：直接搜尋「NVIDIA stock price」\n- **財經網站**：如 Yahoo Finance、Bloomberg、Google Finance\n- **券商 App**：如果你",
+    "usage": {
+      "completion_tokens": 128,
+      "prompt_tokens": 257,
+      "total_tokens": 385,
+      "completion_tokens_details": {
+        "reasoning_tokens": 45
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 192
+      }
+    }
+  },
+  "search_search": {
+    "code": 200,
+    "content": "很抱歉，我無法提供今天的 NVIDIA（NVDA）即時股價資訊。我是一個 AI 語言模型，**沒有連接即時數據源**，所以無法查詢目前的市場行情。\n\n你可以透過以下方式查看最新股價：\n\n1. **Google 搜尋**：直接搜尋「NVIDIA stock price」即可看到即時報價。\n2",
+    "usage": {
+      "completion_tokens": 128,
+      "prompt_tokens": 257,
+      "total_tokens": 385,
+      "completion_tokens_details": {
+        "reasoning_tokens": 46
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 192
+      }
+    }
+  },
+  "thinking_disabled": {
+    "code": 200,
+    "content": "391",
+    "reasoning": null,
+    "usage": {
+      "completion_tokens": 4,
+      "prompt_tokens": 261,
+      "total_tokens": 265,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 192
+      }
+    }
+  }
+}

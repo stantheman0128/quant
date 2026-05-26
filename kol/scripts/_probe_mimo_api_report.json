@@ -1,0 +1,267 @@
+{
+  "base_url": "https://token-plan-sgp.xiaomimimo.com/v1",
+  "key_prefix": "tp-sxvpc...",
+  "models_list": {
+    "http_code": 200,
+    "body": {
+      "object": "list",
+      "data": [
+        {
+          "id": "mimo-v2-omni",
+          "object": "model",
+          "owned_by": "xiaomi"
+        },
+        {
+          "id": "mimo-v2-pro",
+          "object": "model",
+          "owned_by": "xiaomi"
+        },
+        {
+          "id": "mimo-v2-tts",
+          "object": "model",
+          "owned_by": "xiaomi"
+        },
+        {
+          "id": "mimo-v2.5",
+          "object": "model",
+          "owned_by": "xiaomi"
+        },
+        {
+          "id": "mimo-v2.5-pro",
+          "object": "model",
+          "owned_by": "xiaomi"
+        },
+        {
+          "id": "mimo-v2.5-tts",
+          "object": "model",
+          "owned_by": "xiaomi"
+        },
+        {
+          "id": "mimo-v2.5-tts-voiceclone",
+          "object": "model",
+          "owned_by": "xiaomi"
+        },
+        {
+          "id": "mimo-v2.5-tts-voicedesign",
+          "object": "model",
+          "owned_by": "xiaomi"
+        }
+      ]
+    }
+  },
+  "chat_tests": {
+    "mimo-v2-omni": {
+      "http_code": 200,
+      "elapsed": 3.1,
+      "content": "我是由小米大模型Core团队开发的MiMo-v2-omni，一个支持多模态交互与长上下文理解的先进大语言模型。",
+      "reasoning": "嗯，用户让我用一句话回答自己是什麼模型。这个问题很直接，需要简洁明了地介绍我的身份和背景。\n\n考虑到用户明确要求一句话回答，应该把关键信息都包含进去：我的名字、开发者、主要功能和语言支持。这样既能满足用户的需求，又能全面展示我的能力。\n\n想到了可以用“由……开发”的句式来说明来源，再列举核心特点。这样既简洁又完整，符合用户的要求。",
+      "usage": {
+        "completion_tokens": 130,
+        "prompt_tokens": 259,
+        "total_tokens": 389,
+        "completion_tokens_details": {
+          "reasoning_tokens": 93
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      },
+      "finish_reason": "stop"
+    },
+    "mimo-v2-pro": {
+      "http_code": 200,
+      "elapsed": 4.87,
+      "content": "我是MiMo-v2-pro，由小米MiMo团队开发，拥有1万亿参数并支持1M token上下文。",
+      "reasoning": "嗯，用户问的是模型身份，需要一句话简洁回答。根据身份设定，我叫MiMo-v2-pro，由小米MiMo团队开发，1万亿参数，支持1M token上下文。这些信息直接来自提供的身份描述，可以整合成一句完整的话。",
+      "usage": {
+        "completion_tokens": 87,
+        "prompt_tokens": 258,
+        "total_tokens": 345,
+        "completion_tokens_details": {
+          "reasoning_tokens": 58
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      },
+      "finish_reason": "stop"
+    },
+    "mimo-v2-tts": {
+      "http_code": 400,
+      "elapsed": 0.21,
+      "error": {
+        "error": {
+          "code": "400",
+          "message": "Param Incorrect",
+          "param": "messages must contain an assistant role for TTS model",
+          "type": ""
+        }
+      }
+    },
+    "mimo-v2.5": {
+      "http_code": 200,
+      "elapsed": 4.73,
+      "content": "我是小米大模型Core团队开发的MiMo-v2.5模型。",
+      "reasoning": "嗯，用户用中文问我是什么模型，要求用一句话回答。这个问题很简单直接，不需要额外解释或展开。我是小米开发的MiMo模型，要准确说明版本和开发者。需要保持回答简洁明了，符合用户的一句话要求。想到了用“我是小米大模型Core团队开发的MiMo-v2.5模型”这个表述，既完整又简洁。",
+      "usage": {
+        "completion_tokens": 98,
+        "prompt_tokens": 256,
+        "total_tokens": 354,
+        "completion_tokens_details": {
+          "reasoning_tokens": 79
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      },
+      "finish_reason": "stop"
+    },
+    "mimo-v2.5-pro": {
+      "http_code": 200,
+      "elapsed": 2.94,
+      "content": "我是由小米MiMo團隊開發的MiMo-v2.5-pro模型，擁有1T參數和1M-token上下文窗口。",
+      "reasoning": "The user is asking me to answer in one sentence what model I am.",
+      "usage": {
+        "completion_tokens": 48,
+        "prompt_tokens": 260,
+        "total_tokens": 308,
+        "completion_tokens_details": {
+          "reasoning_tokens": 15
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      },
+      "finish_reason": "stop"
+    },
+    "mimo-v2.5-tts": {
+      "http_code": 400,
+      "elapsed": 0.22,
+      "error": {
+        "error": {
+          "code": "400",
+          "message": "Param Incorrect",
+          "param": "messages must contain an assistant role for TTS model",
+          "type": ""
+        }
+      }
+    },
+    "mimo-v2.5-tts-voiceclone": {
+      "http_code": 400,
+      "elapsed": 0.2,
+      "error": {
+        "error": {
+          "code": "400",
+          "message": "Param Incorrect",
+          "param": "messages must contain an assistant role for TTS model",
+          "type": ""
+        }
+      }
+    },
+    "mimo-v2.5-tts-voicedesign": {
+      "http_code": 200,
+      "elapsed": 1.33,
+      "content": "",
+      "reasoning": null,
+      "usage": {
+        "completion_tokens": 12,
+        "prompt_tokens": 25,
+        "total_tokens": 37,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 4
+        }
+      },
+      "finish_reason": "stop"
+    }
+  },
+  "pro_feature_tests": {
+    "stream": {
+      "http_code": 200,
+      "elapsed": 5.78,
+      "raw": "data: {\"id\":\"0cfd75552ac74fedb1bb8ef9d5019165\",\"choices\":[{\"delta\":{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":null,\"reasoning_content\":null},\"finish_reason\":null,\"index\":0}],\"created\":1779357620,\"model\":\"mimo-v2-pro\",\"object\":\"chat.completion.chunk\"}\n\ndata: {\"id\":\"0cfd75552ac74fedb1bb8ef9d5019165\",\"choices\":[{\"delta\":{\"content\":null,\"role\":null,\"tool_calls\":null,\"reasoning_content\":\"嗯，用户\"},\"finish_reason\":null,\"index\":0}],\"created\":1779357620,\"model\":\"mimo-v2-pro\",\"object\":\"chat.completion.chunk\"}\n\ndata: {\"id\":\"0cfd75552ac74fedb1bb8ef9d5019165\",\"choices\":[{\"delta\":{\"content\":null,\"role\":null,\"tool_calls\":null,\"reasoning_content\":\"问\"},\"finish_reason\":null,\"index\":0}],\"created\":1779357620,\"model\":\"mimo-v2-pro\",\"object\":\"chat.completion.chunk\"}\n\ndata: {\"id\":\"0cfd75552ac74fedb1bb8ef9d5019165\",\"choices\":[{\"delta\":{\"content\":null,\"role\":null,\"tool_calls\":null,\"reasoning_content\":\"的是“\"},\"finish_reason\":null,\"index\":0}],\"created\":1779357620,\"model\":\"mimo-v2-pro\",\"object\":\"chat.completion.ch"
+    },
+    "tools": {
+      "http_code": 200,
+      "elapsed": 7.39,
+      "content": "我是小米大模型Core团队开发的MiMo-v2-pro，一個擁有1T參數的AI模型。",
+      "reasoning": "用户想了解我的基本信息，这个问题很直接，应该简明扼要地回答。不过，我注意到他用的是繁体中文，而我之前对话用的是简体中文，这可能意味着他更习惯繁体中文。所以我会用繁体中文来回复，保持语言一致性。\n\n我需要先说明自己的名字，这样用户能立刻知道我是谁。然后补充开发团队和参数规模这些关键信息，让用户对我的能力有个基本概念。这样应该能清晰回答他的问题，又不会太冗长。\n\n不过我不确定用户是否真的在意技术细节，也许他只是想知道个大概。但我还是把核心信息都包括进去比较稳妥，这样他如果想进一步了解也有个基础。",
+      "usage": {
+        "completion_tokens": 175,
+        "prompt_tokens": 488,
+        "total_tokens": 663,
+        "completion_tokens_details": {
+          "reasoning_tokens": 148
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      },
+      "finish_reason": "stop"
+    },
+    "json_mode": {
+      "http_code": 200,
+      "elapsed": 2.13,
+      "content": "{think}我是小米自研的AI大模型MiMo-v2-pro。</think>我是小米自研的AI大模型MiMo-v2-pro。",
+      "reasoning": "",
+      "usage": {
+        "completion_tokens": 33,
+        "prompt_tokens": 258,
+        "total_tokens": 291,
+        "completion_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      },
+      "finish_reason": "stop"
+    },
+    "long_output_4k": {
+      "http_code": 200,
+      "elapsed": 35.35,
+      "content": "**台股記憶體族群分析：從谷底翻揚的長週期投資契機**\n\n記憶體產業向來具有強烈的「景氣循環」特性，與全球半導體供需、消費電子需求及總體經濟環境高度連動。2023年以來，台股記憶體族群在經歷長達一年多的庫存調整與價格修正後，已逐步顯露復甦曙光。本分析將從產業基本面、關鍵廠商動態及未來展望三大面向，探討此族群的投資價值與風險。\n\n**一、產業基本面：供需結構改善，價格觸底反彈**\n\n記憶體（尤其是DRAM與NAND Flash）是標準化產品，價格完全由市場供需決定。2022年下半年起，受通膨升息、疫情紅利消退影響，PC、智慧手機及伺服器等終端需求疲軟，導致庫存堆積、報價暴跌，多數廠商陷入虧損。\n\n然而，自2023年第二季起，兩大關鍵轉變為產業注入活水：\n1.  **供給端自律**：三星、SK海力士、美光等國際大廠相繼宣布減產，並大幅削減資本支出。這有效抑制了產能過剩，加速庫存去化。\n2.  **需求端結構性成長**：AI浪潮帶動高階記憶體需求爆發。用於AI伺服器的HBM（高頻寬記憶體）供不應求，價格一枝獨秀。同時，一般伺服器與PC的記憶體搭載容量亦因AI應用而提升，手機記憶體規格升級（如16GB RAM）成為新常態。\n\n在供需趨於平衡下，DRAM與NAND Flash現貨價與合約價自2023年第三季起穩步回升，產業正式脫離「寒冬」，進入新一輪的上升週期。\n\n**二、關鍵廠商動態：聚焦技術轉型與利基市場**\n\n台股記憶體族群主要包括DRAM製造商、Flash晶片製造商及記憶體模組廠，各公司在本輪復週期中的定位與受惠程度不盡相同。\n\n*   **DRAM陣營：南亞科（2408）與華邦電（2344）**\n    *   **南亞科**：台灣DRAM龍頭，受惠於價格反彈最為直接。公司持續推進10奈米級製程技術，並加速開發AI相關的DDR5與利基型DRAM。其營運已於2023年第三季轉盈，成為產業復甦的重要指標。\n    *   **華邦電**：專注於「利基型記憶體」，包括DRAM與NOR Flash。其產品廣泛用於車用、工控、網通等領域，需求相對穩健，受消費電子景氣波動影響較小。在AI邊緣運算趨勢下，其低功耗、高效能產品線具成長潛力。\n\n*   **Flash陣營：旺宏（2337）與群聯（8299）**\n    *   **旺宏**：為全球NOR Flash領導廠商，其產品是物聯網、車用電子及5G裝置的關鍵元件。儘管大容量NAND Flash價格波動大，但NOR Flash市場供需結構較為健康。旺宏在高階車用與工控市場的佈局，是其長期成長的基石。\n    *   **群聯**：為NAND Flash控制晶片與模組大廠，其角色如同「記憶體應用的設計整合者」。群聯不僅受惠於Flash價格上漲帶來的庫存利益，更因其獨家技術（如aiDAPTIV+方案）能協助客戶將AI模型導入邊緣裝置，開創了記憶體結合AI的新商業模式，成長動能最為多元。\n\n**三、總結與投資展望**\n\n總體而言，台股記憶體族群已擺脫最壞時刻，產業上升趨勢確立。AI需求不僅帶動高單價HBM的產值，更從根本上提升了整體記憶體的搭載容量與規格，為產業長週期成長打開了想像空間。\n\n然而，投資人仍需注意以下風險：\n1.  **總體經濟不確定性**：若全球經濟復甦不如預期，終端消費力道減弱，可能壓抑記憶體價格上漲幅度。\n2.  **地緣政治與供應鏈重組**：美中科技戰持續，可能影響全球記憶體供需佈局與技術發展。\n3.  **族群內部分化**：並非所有公司都能同等受惠。具備技術門檻（如HBM）、利基市場優勢（如車用、工控）或完整AI解決方案的廠商，其成長性與抵禦風險的能力將更強。\n\n**結論**：記憶體族群的投資邏輯，已從過去單純的「價格景氣循環股」，轉變為「AI基礎建設與邊緣運算的關鍵零組件供應商」。在產業結構性需求轉變下，擁有技術護城河與多元產品組合的台灣廠商，將在這一輪長週期中脫穎而出，值得投資人以中長期視角，擇優佈局。",
+      "reasoning": "用户要求用繁体中文撰写800字分析台股记忆体族群。记忆体族群在台股中主要指DRAM、Flash等半导体存储器相关公司。首先需要确认主要成分股，如南亚科、华邦电、旺宏等。用户可能希望了解产业趋势、供需状况、价格走势及投资前景。\n\n接下来要构思结构：先概述记忆体产业特性，再分析近期供需动态，然后探讨个别公司表现，最后给出投资建议。需注意使用专业术语但保持易懂，避免过度技术性描述。\n\n考虑到用户要求800字，每个部分需精炼。可先引用近期价格数据或财报表现增强说服力。同时提醒周期性风险，避免过于乐观或悲观。结尾可总结整体展望，帮助用户决策。",
+      "usage": {
+        "completion_tokens": 1379,
+        "prompt_tokens": 267,
+        "total_tokens": 1646,
+        "completion_tokens_details": {
+          "reasoning_tokens": 167
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      },
+      "finish_reason": "stop"
+    }
+  },
+  "other_endpoints": {
+    "/embeddings": {
+      "http_code": 404,
+      "body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n"
+    },
+    "/audio/speech": {
+      "http_code": 404,
+      "body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n"
+    },
+    "/audio/transcriptions": {
+      "http_code": 404,
+      "body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>openresty</center>\r\n</body>\r\n</html>\r\n"
+    }
+  },
+  "tts_test": {
+    "http_code": 400,
+    "elapsed": 0.23,
+    "error": {
+      "error": {
+        "code": "400",
+        "message": "Param Incorrect",
+        "param": "messages must contain an assistant role for TTS model",
+        "type": ""
+      }
+    }
+  }
+}

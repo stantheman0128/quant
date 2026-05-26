@@ -75,8 +75,10 @@ def compute_robustness(
     median_ar = float(np.median(ars))
     median_mdd = float(np.median(mdds))
 
-    # Hard constraint
-    if len(sharpes) < 10 or pct_positive < 0.35:
+    # Hard constraint: if <35% of symbols profitable, strategy doesn't generalize
+    # (Removed n_symbols<10 check — that's a group-size concern, handled by DSR
+    # at composite level in evaluate.py. Commod only has 5 symbols by design.)
+    if pct_positive < 0.35:
         composite = portfolio_sharpe - 10
     else:
         composite = portfolio_sharpe
@@ -129,3 +131,27 @@ def deflated_sharpe_ratio(observed_sr: float, n_trials: int, n_returns: int,
         return 0.0
 
     return float(norm.cdf((observed_sr - sr0) / se))
+
+
+def dsr_quality_adjustment(composite: float, dsr: float) -> float:
+    """
+    Adjust composite score by DSR (quality multiplier).
+
+    Only applies to POSITIVE composites — negative scores pass through
+    unchanged (no "rewarding bad strategies by halving them").
+
+    - DSR >= 0.5: no adjustment (strategy looks real)
+    - 0.2 <= DSR < 0.5: composite × 0.5 (suspicious)
+    - DSR < 0.2: composite × 0.2 (very likely noise)
+
+    Rationale: DSR encodes "given multiple testing, how likely is this real?"
+    Applied as gentle multiplier rather than hard cutoff to avoid Goodhart's Law
+    (agent optimizing DSR itself rather than strategy quality).
+    """
+    if composite <= 0:
+        return composite
+    if dsr < 0.2:
+        return composite * 0.2
+    if dsr < 0.5:
+        return composite * 0.5
+    return composite

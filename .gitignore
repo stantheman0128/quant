@@ -1,0 +1,69 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Audio / video files (use cloud storage for these)
+*.mp3
+*.wav
+*.mp4
+*.mov
+
+# Data files (use cloud storage / regenerate from scripts)
+*.parquet
+*.feather
+*.arrow
+**/data/*.csv
+**/results/*.csv
+
+# Historical backtest data (download from broker / Yahoo)
+回測/1y_*/
+回測/data/
+**/historical/
+**/raw_data/
+**/results/*.png
+**/results/*.json
+**/.ohlcv_cache/
+**/data/raw/
+**/cache/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Output directories (regenerable from scripts)
+**/output/
+**/poc/output/
+
+# Logs
+*.log
+**/logs/
+
+# ML model weights (auto-downloaded, don't track)
+**/models/
+*.bin
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+
+# Nested research repos — track separately, NOT as embedded
+回測/autoresearch/
+回測/autoresearch-*/
+
+# Large scraped data files (jsonl exports, XML feeds)
+**/data/raw/
+*.jsonl
+!docs/**/*.jsonl
+
+# Generated reports / charts (often embed raw data, can be huge)
+**/*_report.html
+**/*_chart.html
+回測/gold_chart.html

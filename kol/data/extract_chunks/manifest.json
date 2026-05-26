@@ -1,0 +1,38 @@
+[
+  {
+    "chunk_id": "000",
+    "kol": "panzheng_king",
+    "n_posts": 100,
+    "file": "data\\extract_chunks\\chunk_000_panzheng_king.jsonl"
+  },
+  {
+    "chunk_id": "001",
+    "kol": "panzheng_king",
+    "n_posts": 100,
+    "file": "data\\extract_chunks\\chunk_001_panzheng_king.jsonl"
+  },
+  {
+    "chunk_id": "002",
+    "kol": "panzheng_king",
+    "n_posts": 100,
+    "file": "data\\extract_chunks\\chunk_002_panzheng_king.jsonl"
+  },
+  {
+    "chunk_id": "003",
+    "kol": "panzheng_king",
+    "n_posts": 100,
+    "file": "data\\extract_chunks\\chunk_003_panzheng_king.jsonl"
+  },
+  {
+    "chunk_id": "004",
+    "kol": "panzheng_king",
+    "n_posts": 98,
+    "file": "data\\extract_chunks\\chunk_004_panzheng_king.jsonl"
+  },
+  {
+    "chunk_id": "005",
+    "kol": "uncle_us_notes",
+    "n_posts": 15,
+    "file": "data\\extract_chunks\\chunk_005_uncle_us_notes.jsonl"
+  }
+]

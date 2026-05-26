@@ -1,0 +1,33 @@
+{
+  "n_records": 1739,
+  "n_kols": 3,
+  "n_unique_ids": 404,
+  "date_range": [
+    "2024-04-11",
+    "2026-04-22"
+  ],
+  "direction_distribution": {
+    "1": 1159,
+    "0": 332,
+    "-1": 248
+  },
+  "weight_quantiles": {
+    "q5": 0.31239754098360656,
+    "q25": 0.5,
+    "q50": 0.5,
+    "q75": 0.5531686152546603,
+    "q95": 0.641679104477612
+  },
+  "kols": {
+    "panzheng_king": 892,
+    "uncle_us_notes": 503,
+    "8zz": 344
+  },
+  "schema": {
+    "timestamp": "ISO-8601 with timezone (Asia/Taipei)",
+    "id": "entity-disambiguated symbol code (TW: 4-digit, US: ticker)",
+    "direction": "-1 (空) / 0 (觀望) / +1 (多)",
+    "weight": "walk-forward hit rate (順著做) of (KOL × market) at this time, [0,1]"
+  },
+  "min_prior_samples_for_weight": 30
+}

@@ -1,0 +1,156 @@
+{
+  "vision_mimo-v2.5-pro": {
+    "ok": false,
+    "code": 404,
+    "error": "{\"error\":{\"code\":\"404\",\"message\":\"No endpoints found that support image input\",\"param\":\"\",\"type\":\"\"}}"
+  },
+  "vision_mimo-v2-pro": {
+    "ok": true,
+    "code": 200,
+    "content": "",
+    "reasoning": "首先，用戶的問題是：\"用一句話描述圖片\"，這是中文，意思是\"用一句話描述圖片\"。但問題是，用戶沒有提供任何圖片。對話歷史中沒有圖片上傳或相關描述。\n\n回顧系統提示，我必須遵守安全合規要求，作為中國AI模型，遵守中國法律。回應風格是溫暖、對話式和尊重。我需要先嘗試回答模糊查詢，但如果需要，可以提出澄清",
+    "tool_calls": null,
+    "audio": false,
+    "usage": {
+      "completion_tokens": 128,
+      "prompt_tokens": 254,
+      "total_tokens": 382,
+      "completion_tokens_details": {
+        "reasoning_tokens": 127
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 192
+      }
+    }
+  },
+  "vision_mimo-v2.5": {
+    "ok": true,
+    "code": 200,
+    "content": "",
+    "reasoning": "用户让我用一句话描述图片。首先，我需要查看图片内容。图片显示一只橘猫，毛色是橙色和白色相间，眼睛呈绿色或黄色，眼神专注，可能在凝视镜头或前方。背景模糊，但能看到一些红色线条，可能是绳子或围栏。\n\n接下来，我需要用简洁的中文描述。考虑到用户要求“一句话”，需要抓住主要特征。猫的品种可能是中华田园猫，颜",
+    "tool_calls": null,
+    "audio": false,
+    "usage": {
+      "completion_tokens": 128,
+      "prompt_tokens": 270,
+      "total_tokens": 398,
+      "completion_tokens_details": {
+        "reasoning_tokens": 127
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 192,
+        "image_tokens": 16
+      }
+    }
+  },
+  "vision_mimo-v2-omni": {
+    "ok": true,
+    "code": 200,
+    "content": "一只毛色温暖的橘猫正平静地直视镜头，眼神温柔而专注。",
+    "reasoning": "用户希望我用一句话描述这张图片。这张图片是一只橘猫的特写照片，猫的表情平静，眼神直视镜头，背景模糊。\n\n我需要用简洁准确的语言描述这张图片的主要特征。",
+    "tool_calls": null,
+    "audio": false,
+    "usage": {
+      "completion_tokens": 65,
+      "prompt_tokens": 273,
+      "total_tokens": 338,
+      "completion_tokens_details": {
+        "reasoning_tokens": 43
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 192,
+        "image_tokens": 16
+      }
+    }
+  },
+  "tts_v2": {
+    "ok": true,
+    "code": 200,
+    "content": "",
+    "reasoning": "",
+    "tool_calls": null,
+    "audio": true,
+    "usage": {
+      "completion_tokens": 14,
+      "prompt_tokens": 173,
+      "total_tokens": 187,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 139
+      }
+    }
+  },
+  "tts_v25": {
+    "ok": true,
+    "code": 200,
+    "content": "",
+    "reasoning": "",
+    "tool_calls": null,
+    "audio": true,
+    "usage": {
+      "completion_tokens": 8,
+      "prompt_tokens": 170,
+      "total_tokens": 178,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 139
+      }
+    }
+  },
+  "tts_voiceclone": {
+    "ok": false,
+    "code": 400,
+    "error": "{\"error\":{\"code\":\"400\",\"message\":\"Param Incorrect\",\"param\":\"audio must not be empty for voice clone model\",\"type\":\"\"}}"
+  },
+  "tts_voicedesign": {
+    "ok": true,
+    "code": 200,
+    "content": "",
+    "reasoning": "",
+    "tool_calls": null,
+    "audio": true,
+    "usage": {
+      "completion_tokens": 18,
+      "prompt_tokens": 27,
+      "total_tokens": 45,
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 3
+      }
+    }
+  },
+  "tools_v25": {
+    "ok": true,
+    "code": 200,
+    "content": "",
+    "reasoning": "用戶想要查詢台北的天氣。我需要使用get_weather工具來獲取台北的天氣信息。這個工具需要一個城市名稱作為參數。台北是一個城市，所以這個請求是合適的。我來調用get_weather工具。",
+    "tool_calls": [
+      {
+        "id": "call_6993ccf81e65447f994c8981",
+        "function": {
+          "arguments": "{\"city\": \"台北\"}",
+          "name": "get_weather"
+        },
+        "type": "function"
+      }
+    ],
+    "audio": false,
+    "usage": {
+      "completion_tokens": 77,
+      "prompt_tokens": 480,
+      "total_tokens": 557,
+      "completion_tokens_details": {
+        "reasoning_tokens": 54
+      },
+      "prompt_tokens_details": {
+        "cached_tokens": 192
+      }
+    }
+  }
+}

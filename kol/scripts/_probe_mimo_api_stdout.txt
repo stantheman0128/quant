@@ -1,0 +1,69 @@
+﻿=== GET /models ===
+status=200
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "mimo-v2-omni",
+      "object": "model",
+      "owned_by": "xiaomi"
+    },
+    {
+      "id": "mimo-v2-pro",
+      "object": "model",
+      "owned_by": "xiaomi"
+    },
+    {
+      "id": "mimo-v2-tts",
+      "object": "model",
+      "owned_by": "xiaomi"
+    },
+    {
+      "id": "mimo-v2.5",
+      "object": "model",
+      "owned_by": "xiaomi"
+    },
+    {
+      "id": "mimo-v2.5-pro",
+      "object": "model",
+      "owned_by": "xiaomi"
+    },
+    {
+      "id": "mimo-v2.5-tts",
+      "object": "model",
+      "owned_by": "xiaomi"
+    },
+    {
+      "id": "mimo-v2.5-tts-voiceclone",
+      "object": "model",
+      "owned_by": "xiaomi"
+    },
+    {
+      "id": "mimo-v2.5-tts-voicedesign",
+      "object": "model",
+      "owned_by": "xiaomi"
+    }
+  ]
+}
+
+=== chat/completions 基本測試 ===
+
+[mimo-v2-omni] OK
+  elapsed: 2.2s
+python : Traceback (most recent call last):
+At C:\Users\stans\AppData\Local\Temp\ps-script-e875e433-f972-40bb-8f84-014f0b2bc3e7.ps1:80 char:1
++ python "c:\Users\stans\Projects\quant\kol\scripts\_probe_mimo_api.py" ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "c:\Users\stans\Projects\quant\kol\scripts\_probe_mimo_api.py", line 128, in <module>
+    main()
+    ~~~~^^
+  File "c:\Users\stans\Projects\quant\kol\scripts\_probe_mimo_api.py", line 81, in main
+    log(f"  content: {ok['content'][:200]}")
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\stans\Projects\quant\kol\scripts\_probe_mimo_api.py", line 63, in log
+    print(s.encode("utf-8", errors="replace").decode("utf-8", errors="replace"))
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'cp950' codec can't encode character '\u56e2' in position 29: illegal multibyte sequence

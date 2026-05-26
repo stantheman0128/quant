@@ -1,0 +1,206 @@
+{
+  "model": "mimo-v2.5-pro",
+  "base_url": "https://token-plan-sgp.xiaomimimo.com/v1",
+  "tests": {
+    "identity": {
+      "status": 200,
+      "ok": true,
+      "content": "",
+      "reasoning": "首先，使用者要求列出我的模型名稱、參數量、上下文長度、支援語言、是否支援推理/工具/多模態。所有內容必須用繁體中文，並以 bullet list（項目符號清單）形式呈現。\n\n從我的身份資訊中，我有以下詳細資訊：\n\n- 模型名稱：MiMo-v2.5-pro\n- 開發者：小米 MiMo 團隊\n- 參數量：1T 參數（即一萬億參數）\n- 上下文長度：1M-token 上下文窗口（即一百萬 token 上下文）\n- 支援語言：我作為 AI 助手，應該支援多種語言，但從身份描述中，並未明確列出支援的語言。身份描述說「你是小米 MiMo 團隊開發的」，但未指定語言。不過，基於常識和我的回應能力，我應該支援常見語言，尤其是中文（繁體和簡體），以及其他如英文等。但為了準確，我需要依賴身份描述。身份描述中只提到「回答身份相關問題時，使用第一人稱」，但未指定語言。因此，我應該假設支援多種語言，但為了清單，我可",
+      "tool_calls": null,
+      "usage": {
+        "completion_tokens": 512,
+        "prompt_tokens": 285,
+        "total_tokens": 797,
+        "completion_tokens_details": {
+          "reasoning_tokens": 511
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      },
+      "finish_reason": "length"
+    },
+    "coding_python": {
+      "status": 200,
+      "ok": true,
+      "content": "```python\nfrom typing import Union\n\ndef calc_sma(closes: list[float], period: int = 20) -> list[float]:\n    \"\"\"計算 SMA，前 period-1 個值為 None。\"\"\"\n    sma: list[Union[float, None]] = [None] * (period - 1)\n    for i in range(period - 1, len(closes)):\n        sma.append(sum(closes[i - period + 1 : i + 1]) / period)\n    return sma\n\n\ndef calc_rsi(closes: list[float], period: int = 14) -> list[float]:\n    \"\"\"計算 RSI，前 period 個值為 None（Wilder's smoothing）。\"\"\"\n    if len(closes) < period + 1:\n        return [None] * len(closes)\n\n    rsi: list[Union[float, None]] = [None] * period\n    deltas = [closes[i] - closes[i - 1] for i in range(1, len(closes))]\n\n    # 初始平均 gain / loss（前 period 個 delta）\n    avg_gain = sum(d for d in deltas[:period] if d > 0) / period\n    avg_loss = sum(-d for d in deltas[:period] i",
+      "reasoning": "The user wants a Python function that takes an OHLCV list and calculates the 20-day SMA and RSI(14). They said \"只回 code\" (only return code).\n\nLet me write a clean implementation.\n\nOHLCV typically means: Open, High, Low, Close, Volume. For SMA and RSI, we only need the Close price.\n\nLet me think about the structure:\n- Input: a list of OHLCV data, each item could be a dict or list/tuple\n- Output: 20",
+      "tool_calls": null,
+      "usage": {
+        "completion_tokens": 1024,
+        "prompt_tokens": 282,
+        "total_tokens": 1306,
+        "completion_tokens_details": {
+          "reasoning_tokens": 219
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      },
+      "finish_reason": "length"
+    },
+    "finance_extract": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "tool_call_forced": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "tool_choice_auto": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "json_mode": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "stream": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "thinking_enabled": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "thinking_disabled": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "enable_thinking_true": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "enable_thinking_false": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "vision_url": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "vision_base64": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "search_probe_web_search": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "search_probe_enable_search": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "search_probe_search": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "search_probe_tools_web": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "max_tokens_8192": {
+      "status": 429,
+      "ok": null,
+      "error": ""
+    },
+    "max_tokens_16384": {
+      "status": 429,
+      "ok": null,
+      "error": ""
+    },
+    "max_tokens_32768": {
+      "status": 429,
+      "ok": null,
+      "error": ""
+    },
+    "max_tokens_131072": {
+      "status": 429,
+      "ok": null,
+      "error": ""
+    },
+    "temperature_0": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "temperature_1.5": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    },
+    "multi_turn": {
+      "status": 429,
+      "ok": false,
+      "error": "{\n    \"error\": {\n        \"code\": \"429\",\n        \"message\": \"Too many requests\",\n        \"type\": \"limitation\"\n    }\n}\n"
+    }
+  },
+  "model_compare": {
+    "mimo-v2.5-pro": {
+      "status": 429,
+      "content": "",
+      "usage": null
+    },
+    "mimo-v2-pro": {
+      "status": 200,
+      "content": "1. **DRAM 週期較短且波動劇烈**，主要受 PC、伺服器與手機的季節性需求影響，價格與庫存變化快速。  \n2. **NAND 週期較長且相對平緩**，因資本支出與技術迭代（如層數堆疊）需時較長，供需調整速度較慢。  \n3. **兩者差異根源在於應用與技術**：DRAM 強調即時存取速度，需求與終端產品出貨高度同步；NAND 側重儲存密度，受",
+      "usage": {
+        "completion_tokens": 256,
+        "prompt_tokens": 268,
+        "total_tokens": 524,
+        "completion_tokens_details": {
+          "reasoning_tokens": 125
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      }
+    },
+    "mimo-v2-omni": {
+      "status": 200,
+      "content": "DRAM 需要定期刷新以维持数据，而 NAND 则无需刷新；DRAM 的读写周期以纳秒计远快于 NAND 的微秒级；从寿命周期看，DRAM 理论上支持无限次读写，而 NAND 则有有限的擦写次数。",
+      "usage": {
+        "completion_tokens": 193,
+        "prompt_tokens": 269,
+        "total_tokens": 462,
+        "completion_tokens_details": {
+          "reasoning_tokens": 126
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      }
+    },
+    "mimo-v2.5": {
+      "status": 200,
+      "content": "DRAM 因頻繁讀寫需求，週期較短且波動性較高，主要受伺服器與手機等終端裝置拉貨影響；NAND 週期較長且穩定，受儲存需求驅動，報價變動較平緩。DRAM 需持續供電以保存資料，屬易失性記憶體，而 NAND 斷電後仍可保留資料，為非易失性。兩者技術迭代節奏不同，DRAM 朝高頻寬發展，NAND 則追求高密度與低成本。",
+      "usage": {
+        "completion_tokens": 252,
+        "prompt_tokens": 266,
+        "total_tokens": 518,
+        "completion_tokens_details": {
+          "reasoning_tokens": 125
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 192
+        }
+      }
+    }
+  }
+}
