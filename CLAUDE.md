@@ -1,107 +1,59 @@
-# 優式資本量化專案 — System Prompt
+# 量化專題 — System Prompt
 
 ## 專案擁有者
-施博瀚（Stan Shih）— 師大資工系大四，前 CMU Information Systems（EA 錄取，休學返台）
+施博瀚（Po-Han Shih）— 師大資工系大四，前 CMU Information Systems（休學返台）。
+指導教授：紀博文（Prof. Po-Wen Chi），師大資工系。
 
-## 專案定位
+## 題目（現行，2026-06 更新）
 
-### 題目
-**基於多情境壓力分析的量化因子穩健性評估**
+**中文財經 KOL 觀點作為選股因子：對 Alpha101 的增量資訊檢定**
+*Chinese Financial KOL Opinions as a Stock-Selection Factor: Testing Incremental Information over Alpha101*
 
-用 Alpha101 因子為基礎，結合歷史壓力測試與 AI 輔助的假設性情境分析，建立因子「條件穩健性」的量化評估方法，最終組裝出在熊市中仍表現穩健的策略。
+把台灣財經 KOL（Facebook）的自由文本，用 LLM 抽成標準化、可回測的結構化資料，再把 KOL 觀點當成一個**選股因子**，檢定它在**扣掉已知價量因子（Alpha101）之後**是否還有預測力 —— 也就是它帶來的是「動能以外的新資訊」，還是只是動能的重新包裝。
 
-### 雙軌目標
+> **定位（誠實版）**：主要是「把既有方法搬到一個少有人做的乾淨樣本（繁中獨立 KOL）」（指導教授已認可此路徑）；額外加上兩個對手研究多半沒做的嚴謹度檢定 —— incremental IC vs Alpha101、條件穩健性。不主張發明新方法、不誇大 contribution。
+>
+> **刻意收斂**：不再嘗試量化 KOL 對市場的因果「影響力」（難以乾淨識別）；改為純粹把 KOL 當因子、檢定其增量資訊含量（可嚴格回測）。
 
-**優式資本面試（重結果）**
-- Deadline：2026 年五月中
-- 產出高 Sharpe 策略，展示實作力 + 風控思維 + 獨特思考
-- 不強調 AI，強調「我做出了什麼」
-- 參考基準：去年實習冠軍 Sharpe 4.8，優式交易員 ~2.8，日頻策略穩定做到 Sharpe 2.0+ 即有說服力
+## 方法（三步 Pipeline + 增量檢定）
 
-**資工系教授專題（重方法論 + 技術）**
-- 需要明確的 Personal Contribution（不能只讓 AI 跑）
-- 技術含量：因子實作、回測引擎、穩健性評分演算法、壓力測試系統
-- AI 是技術工具之一，但核心分析和設計由人主導
-- 詳見 `docs/專題提案.md`
+1. **LLM-as-Formatter**：自由文本 → 4 欄位 schema `{timestamp, id, direction∈-1/0/+1, weight}`。LLM 只做格式化 + 實體消歧（台積 ≡ 2330 ≡ TSMC），**不輸出信心分數、不評分**。
+2. **Walk-forward 權重**：`weight` = 該 KOL 在該則發文「之前」的歷史命中率（point-in-time，最少 30 筆才估、不足給 0.5）。嚴防 look-ahead。
+3. **聚合成每日 KOL 因子**：對每檔股票彙總近期 KOL 訊號 → `f_kol`。
+4. **Incremental IC vs Alpha101**（核心驗收，見下）。
 
-## 核心技術方向
+### Incremental IC vs Alpha101（核心）
+每個 rebalance 日、在橫斷面上：
+- 橫斷面迴歸 `f_kol ~ A₁..Aₖ`（Alpha101 因子）→ 殘差 `e` = Alpha101 解釋不掉的部分
+- `Incremental IC = corr(e, 未來報酬)`，逐日平均
+- 比較 raw IC vs incremental IC；落差越小 → KOL 越獨立於價量
+- 加 Deflated Sharpe 校正多重檢定
+- 目標：incremental IC ≥ 0.03（baseline）／≥ 0.05（stretch）
 
-### 三層驗證架構
-1. **歷史回測** — 確認因子在真實資料上有效（基準線）
-2. **Walk-Forward** — 確認因子不是過度擬合（穩定性驗證）
-3. **AI-Augmented 壓力測試** — 確認因子在極端情境下的穩健性（前瞻性驗證）
+⚠️ 現況：**incremental IC 的方法已設計，計算仍進行中**。目前 PoC 報的是 raw（pooled）IC，尚未扣 Alpha101。
 
-### 條件穩健性評分（核心演算法）
-基於凸性分析（Taleb & Douady, 2013）：
-- 因子報酬對壓力強度做二次迴歸：R(σ) = a + b·σ + c·σ²
-- c > 0 → 反脆弱（壓力下表現更好）
-- c ≈ 0 → 穩健
-- c < 0 → 脆弱
-
-### 範圍控制（辯論後調整）
-- 因子數量：**5-8 個**代表性因子（不是全部 101 個）
-- AI 角色：**輔助工具**（生成情境模板），不是核心引擎
-- 回測框架：**自建**（pandas + NumPy），不依賴外部框架
-- 資料：**美股日頻**（Yahoo Finance, S&P 500）
+## PoC 現況（2026-04，已完成、正面）
+3 位 FB KOL（巴逆逆 8zz / 盤整之王 / Uncle 大叔）、1,685 觀點、404 標的、2024–2026。
+- 純方向 hit 54.3%（p=0.003）；walk-forward 加權 IC 0.097（raw 的 ×2.1）；高信心過濾 Sharpe 1.65。
+- weight 分位 hit rate 49% → 62%，證明 walk-forward 權重有預測力。
+- 4 個 anomaly：KOL skill 不跨 domain、過度自信反而較差、8zz 是延遲跟隨者非反指標、多空 skill 不對稱（→ 之後要分 weight_long / weight_short）。
 
 ## 技術棧
-- **語言：** Python 3.11+
-- **因子計算：** pandas + NumPy（向量化）
-- **回測：** 自建（排序 → 分組 → 多空）
-- **壓力情境：** Claude API / GPT API + 規則引擎
-- **合成資料：** GARCH + 衝擊疊加
-- **並行計算：** multiprocessing / joblib
-- **視覺化：** matplotlib + seaborn
-- **版本控制：** Git
+Python 3.11+；pandas/NumPy；LLM 抽取（Claude）；Whisper（語音，目前先擱置不主推）；FinMind 台股 + yfinance 美股 OHLC；自建 walk-forward / 橫斷面因子引擎（`回測/factor_lab/`，目前跑美股、需接台股）。
 
-## 時程與 Milestone
-
-| 週次 | 目標 | Checkpoint |
-|------|------|-----------|
-| 第 0 週（4/8-4/13） | 確認方向、讀論文、建環境 | 教授同意題目 |
-| 第 1-2 週（4/14-4/27） | 因子實作 + 基準回測 | ⚠️ 至少 3 因子跑通 pipeline，否則 pivot |
-| 第 3 週（4/28-5/4） | 壓力測試 | 歷史 + AI 情境完成 |
-| 第 4 週（5/5-5/11） | 評分 + 策略組裝 | 穩健性熱力圖 + 最終策略 |
-| 第 5 週（5/12-5/18） | 報告 + 面試準備 | 交卷 |
-
-**每天並行：1-1.5 小時面試刷題 + 產業研究**
-
-## 風險備案
-- **Plan A**：完整版（因子 + 歷史壓力 + AI 壓力 + 穩健性評分）
-- **Plan B-A**：降級版（因子 + 歷史壓力 + 參數化 sensitivity analysis，不用 AI 生成情境）
-- **Plan B-B**：最小版（純因子實證研究，不含壓力測試）
-- **Pivot 觸發點**：第二週結束時 3 個因子未跑通 → 立即降級
-
-## 關鍵參考資料
-- `docs/專題提案.md` — 完整專題提案文件
-- `research/回測方法總覽.md` — 五種回測方法 + 時序分析基礎
-- `research/題目辯論記錄.md` — 四角色 30 輪辯論記錄
-- `alpha101/` — Alpha101 深度解析文章（三篇）
-- `[LINE]優式集中營.txt` — Chris（優式 Insider）的建議與情報
-- Kakushadze (2016) "101 Formulaic Alphas"
-- Taleb & Douady (2013) "Mathematical Definition of Fragility"
+## 關鍵檔案
+- `docs/評審簡報_KOL量化平台_v4.md` — 方法論定案版（期中簡報基礎）
+- `docs/西方文獻比較_2026-05-27.md` — 西方文獻對位 + 七維差異化矩陣
+- `research/口頭討論講稿.md` — 對指導教授的差異化 framing 與防守問答
+- `kol/docs/POC_results_2026-04-24.md` — PoC 完整實證
+- `kol/scripts/build_clean_schema.py` / `eval_clean_schema.py` — walk-forward weight 與下游評估
+- `回測/factor_lab/cs_engine.py` — 橫斷面 IC / 多空回測引擎
 
 ## 工作原則
-1. **邊做邊調整** — 不閉門造車，有進度就呈現
-2. **測試驅動** — 每個因子寫 unit test，每次改動跑全部 test
-3. **個人貢獻清晰** — 每個決策都能解釋「為什麼是我做的這個選擇」
-4. **時間紀律** — 嚴格遵守 milestone，不達標就 pivot
-5. **邊做邊寫報告** — 不要留到最後一週
-6. **繁體中文** — 所有文件、註解、輸出一律繁體中文（技術術語除外）
+1. 繁體中文（技術術語除外）。
+2. 個人貢獻清晰 —— 每個決策都能解釋為什麼這樣選。
+3. 誠實標注「已驗證」vs「進行中」，不誇大。
+4. 邊做邊寫、有進度就呈現。
 
-## 專案結構
-```
-quant/
-├── CLAUDE.md                # 本檔案
-├── src/
-│   ├── factors/             # Alpha101 因子實作 + 測試
-│   ├── backtest/            # 回測引擎 + 績效指標
-│   ├── stress/              # 壓力測試（歷史 + AI 情境 + 合成資料）
-│   ├── scoring/             # 條件穩健性評分演算法
-│   └── viz/                 # 視覺化（熱力圖等）
-├── data/                    # 市場資料
-├── results/                 # 回測結果
-├── alpha101/                # Alpha101 參考文獻
-├── research/                # 研究筆記、辯論記錄
-└── docs/                    # 專題提案、報告
-```
+## 歷史脈絡（已棄用，勿沿用）
+本專題四月初最早的題目是「基於多情境壓力分析的量化因子穩健性評估」（Alpha101 壓力測試 / 凸性分析 + autoresearch forex/commod/index，在 `回測/` 裡）。4/23–4/24 已 pivot 到現在的 KOL 題目。舊框架僅作歷史參考。
